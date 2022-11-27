@@ -74,7 +74,7 @@ public class UserRepository {
         List<User> rsl;
         try (Session session = sf.openSession()) {
             session.beginTransaction();
-            rsl = session.createQuery("FROM User", User.class).getResultList();
+            rsl = session.createQuery("select u FROM User AS u ORDER BY u.id ASC").getResultList();
             session.getTransaction().commit();
         }
         return rsl;
@@ -103,7 +103,7 @@ public class UserRepository {
         List<User> rsl;
         try (Session session = sf.openSession()) {
             session.beginTransaction();
-            Query<User> query = session.createQuery("from User u where u.login like :fKey");
+            Query<User> query = session.createQuery("select u from User AS u where u.login like :fKey");
             rsl = query.setParameter("fKey", "%" + key + "%").getResultList();
             session.getTransaction().commit();
         }
@@ -119,9 +119,9 @@ public class UserRepository {
         Optional<User> user;
         try (Session session = sf.openSession()) {
             session.beginTransaction();
-            Query<User> query = session.createQuery("from User u where login = :fLogin")
+            Query<User> query = session.createQuery("select u from User AS u where login = :fLogin")
                     .setParameter("fLogin", login);
-            user = Optional.ofNullable(query.list().get(0));
+            user = query.uniqueResultOptional();
             session.getTransaction().commit();
         }
         return user;
