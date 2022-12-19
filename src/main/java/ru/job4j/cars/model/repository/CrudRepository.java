@@ -73,7 +73,7 @@ public class CrudRepository {
             return rsl;
         } catch (Exception e) {
             var tx = session.getTransaction();
-            if(tx.isActive()) {
+            if (tx.isActive()) {
                 tx.rollback();
             }
             throw e;
