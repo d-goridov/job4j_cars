@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -21,7 +22,7 @@ public class Post {
     private LocalDateTime created;
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "auto_post_id")
-    private List<PriceHistory> priceHistories;
+    private List<PriceHistory> priceHistories = new ArrayList<>();
     @ManyToOne
     @JoinColumn(name = "auto_user_id")
     private User user;
